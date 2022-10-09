@@ -43,6 +43,8 @@ const ProfileAndTitleSection = () => {
             label=""
             variant="standard"
             placeholder="อยากให้เรียกชื่อทริปนี้ว่าอะไร"
+            inputProps={{ style: { textAlign: 'center' } }}
+            sx={{ width: '90%' }}
           />
         </Stack>
       </StackWithShadow>

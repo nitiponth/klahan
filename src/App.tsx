@@ -26,23 +26,21 @@ function App() {
 
   useEffect(() => {
     initializeLIFF();
-    // if (ENV === 'DEVELOPMENT') {
-    //   setTimeout(() => {
-    //     setIsReady(true);
-    //   }, 1_000);
-    // }
+    if (ENV === 'DEVELOPMENT') {
+      setTimeout(() => {
+        setIsReady(true);
+      }, 1_000);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liff.ready]);
 
   const initializeLIFF = async () => {
     liff.ready.then(() => {
-      console.log('liff is ready.');
       if (liff.isInClient()) {
-        console.log('liff in client.');
         getUserProfile();
       } else {
-        console.log('liff not in client.');
+        console.error('liff not in client.');
       }
     });
 

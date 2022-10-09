@@ -1,8 +1,8 @@
-import { Stack } from "@mui/material";
-import React from "react";
-import Lottie from "react-lottie";
-import { COLOR } from "../../utils/themes/colors";
-import LoadingCat from "../../assets/lotties/cat-play-yarn.json";
+import { Stack } from '@mui/material';
+import React from 'react';
+import Lottie from 'react-lottie';
+import { COLOR } from '../../utils/themes/colors';
+import LoadingCat from '../../assets/lotties/cat-play-yarn.json';
 
 const Loading = () => {
   const defaultOptions = {
@@ -10,7 +10,7 @@ const Loading = () => {
     autoplay: true,
     animationData: LoadingCat,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
+      preserveAspectRatio: 'xMidYMid slice',
     },
   };
 
@@ -19,7 +19,7 @@ const Loading = () => {
       bgcolor={COLOR.WHITE_COLOR}
       justifyContent="center"
       alignItems="center"
-      minHeight={"100vh"}
+      minHeight={'100vh'}
     >
       <Lottie options={defaultOptions} />
     </Stack>

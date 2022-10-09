@@ -5,11 +5,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
-import React, { useState } from "react";
-import { COLOR } from "../../../utils/themes/colors";
-import StackWithShadow from "../../atoms/StackWithShadow/StackWithShadow";
-import liff from "@line/liff";
+} from '@mui/material';
+import React, { useState } from 'react';
+import { COLOR } from '../../../utils/themes/colors';
+import StackWithShadow from '../../atoms/StackWithShadow/StackWithShadow';
+import liff from '@line/liff';
 
 const FooterButtons = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -45,7 +45,7 @@ const FooterButtons = () => {
       </StackWithShadow>
 
       <Dialog open={isOpen} onClose={setIsOpen.bind(null, false)}>
-        <DialogTitle>{"รีบมากหรอ ?"}</DialogTitle>
+        <DialogTitle>{'รีบมากหรอ ?'}</DialogTitle>
         <DialogContent>
           <DialogContentText>รีบมากก็มาเขียนเองนะไอ้เหี้ย!!</DialogContentText>
         </DialogContent>
@@ -74,13 +74,13 @@ const FooterButtons = () => {
 };
 
 const styles = {
-  containerStyles: { flexDirection: "row", gap: "10px", marginTop: "auto" },
+  containerStyles: { flexDirection: 'row', gap: '10px', marginTop: 'auto' },
 };
 
 const createButtonStyles = (color: string) => ({
   flexGrow: 1,
   bgcolor: color,
-  "&:hover": {
+  '&:hover': {
     bgcolor: color,
   },
 });

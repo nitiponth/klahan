@@ -1,6 +1,6 @@
-import { Avatar, Stack } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { COLOR } from "../../../utils/themes/colors";
+import { Avatar, Stack } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { COLOR } from '../../../utils/themes/colors';
 
 interface Props {
   profile: string;
@@ -10,7 +10,7 @@ interface Props {
 
 const SelectableAvatar = ({ profile, isSelected, onSelect }: Props) => {
   return (
-    <Stack sx={{ position: "relative" }} onClick={onSelect}>
+    <Stack sx={{ position: 'relative' }} onClick={onSelect}>
       <Avatar src={profile} sx={{ width: 50, height: 50 }} />
       {isSelected && <CheckCircleIcon sx={styles.checkIconStyles} />}
     </Stack>
@@ -19,7 +19,7 @@ const SelectableAvatar = ({ profile, isSelected, onSelect }: Props) => {
 
 const styles = {
   checkIconStyles: {
-    position: "absolute",
+    position: 'absolute',
     color: COLOR.SUCCESS_COLOR,
     bgcolor: COLOR.WHITE_COLOR,
     borderRadius: 100,

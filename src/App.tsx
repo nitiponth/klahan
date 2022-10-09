@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import liff from "@line/liff";
-import Loading from "./components/atoms/Loading";
-import { Route, Routes } from "react-router-dom";
-import Home from "./components/pages/Home";
-import { Stack } from "@mui/material";
-import { COLOR } from "./utils/themes/colors";
+import { useEffect, useState } from 'react';
+import './App.css';
+import liff from '@line/liff';
+import Loading from './components/atoms/Loading';
+import { Route, Routes } from 'react-router-dom';
+import Home from './components/pages/Home';
+import { Stack } from '@mui/material';
+import { COLOR } from './utils/themes/colors';
 
 interface IUser {
   username: string | undefined;
@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     initializeLIFF();
-    if (ENV === "DEVELOPMENT") {
+    if (ENV === 'DEVELOPMENT') {
       setTimeout(() => {
         setIsReady(true);
       }, 1_000);
@@ -59,7 +59,7 @@ function App() {
   if (!isReady) return <Loading />;
 
   return (
-    <Stack minHeight={"100vh"} bgcolor={COLOR.WHITE_COLOR}>
+    <Stack minHeight={'100vh'} bgcolor={COLOR.WHITE_COLOR}>
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>

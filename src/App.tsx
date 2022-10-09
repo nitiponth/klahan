@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
-import angryCat from "./assets/logo/dummy_logo.jpeg";
-import cuteCat from "./assets/logo/cute-cate.jpeg";
+import { useEffect, useState } from "react";
 import "./App.css";
 import liff from "@line/liff";
-import { Avatar, Typography } from "@mui/material";
-import { Stack } from "@mui/system";
+import Loading from "./components/atoms/Loading";
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/pages/Home";
+import { Stack } from "@mui/material";
+import { COLOR } from "./utils/themes/colors";
 
 interface IUser {
   username: string | undefined;
   profile: string | undefined;
 }
 
+const ENV = process.env.REACT_APP_ENV;
+
 function App() {
   const [isReady, setIsReady] = useState<boolean>(false);
-  const [isAfterThreeSecs, setIsAfterThreeSecs] = useState<boolean>(false);
   const [user, setUser] = useState<IUser>({
     username: undefined,
     profile: undefined,
@@ -21,6 +23,11 @@ function App() {
 
   useEffect(() => {
     initializeLIFF();
+    if (ENV === "DEVELOPMENT") {
+      setTimeout(() => {
+        setIsReady(true);
+      }, 1_000);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liff.ready]);
@@ -47,12 +54,18 @@ function App() {
       profile: pictureUrl,
     });
     setIsReady(true);
-    setTimeout(() => setIsAfterThreeSecs(true), 3000);
   };
 
+  if (!isReady) return <Loading />;
+
   return (
-    <div className="App">
-      <header className="App-header">
+    <Stack minHeight={"100vh"} bgcolor={COLOR.WHITE_COLOR}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      {/* <Swich
+      <Route path="/" element={<Home />} /> */}
+      {/* <header className="App-header">
         <img
           style={{ borderRadius: "10px", marginBottom: "2rem" }}
           src={isAfterThreeSecs ? angryCat : cuteCat}
@@ -75,8 +88,8 @@ function App() {
             )}
           </>
         )}
-      </header>
-    </div>
+      </header> */}
+    </Stack>
   );
 }
 

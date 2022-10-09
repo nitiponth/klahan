@@ -5,13 +5,20 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import firebase from "./firebase";
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "@mui/material";
+import { appTheme } from "./utils/themes/theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <ThemeProvider theme={appTheme}>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

@@ -13,6 +13,7 @@ interface IUser {
 }
 
 const ENV = process.env.REACT_APP_ENV;
+const liffId = process.env.REACT_APP_LIFF_ID;
 
 function App() {
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -21,26 +22,34 @@ function App() {
     profile: undefined,
   });
 
+  console.log('🚀 ~ file: App.tsx ~ line 17 ~ liffId', liffId);
+
   useEffect(() => {
     initializeLIFF();
-    if (ENV === 'DEVELOPMENT') {
-      setTimeout(() => {
-        setIsReady(true);
-      }, 1_000);
-    }
+    // if (ENV === 'DEVELOPMENT') {
+    //   setTimeout(() => {
+    //     setIsReady(true);
+    //   }, 1_000);
+    // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liff.ready]);
 
   const initializeLIFF = async () => {
     liff.ready.then(() => {
+      console.log('liff is ready.');
       if (liff.isInClient()) {
+        console.log('liff in client.');
         getUserProfile();
+      } else {
+        console.log('liff not in client.');
       }
     });
 
-    const liffId = process.env.REACT_APP_LIFF_ID;
-    if (!liffId) return;
+    if (!liffId) {
+      console.error('liff ID not found.');
+      return;
+    }
 
     await liff.init({
       liffId,

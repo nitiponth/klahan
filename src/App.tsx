@@ -6,23 +6,31 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './components/pages/Home';
 import { Stack } from '@mui/material';
 import { COLOR } from './utils/themes/colors';
-
-interface IUser {
-  username: string | undefined;
-  profile: string | undefined;
-}
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { trpc } from './utils/trpc';
+import { UserContextTypes, useUserContext } from './contexts/userContext';
 
 const ENV = process.env.REACT_APP_ENV;
 const liffId = process.env.REACT_APP_LIFF_ID;
+const BASE_URL = process.env.REACT_APP_BASE_URL ?? '';
 
 function App() {
-  const [isReady, setIsReady] = useState<boolean>(false);
-  const [user, setUser] = useState<IUser>({
-    username: undefined,
-    profile: undefined,
-  });
+  const { dispatch } = useUserContext();
 
-  console.log('🚀 ~ file: App.tsx ~ line 17 ~ liffId', liffId);
+  const [queryClient] = useState(() => new QueryClient());
+  const [trpcClient] = useState(() =>
+    trpc.createClient({
+      url: BASE_URL,
+      // optional
+      // headers() {
+      //   return {
+      //     authorization: getAuthCookie(),
+      //   };
+      // },
+    }),
+  );
+
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   useEffect(() => {
     initializeLIFF();
@@ -55,48 +63,24 @@ function App() {
   };
 
   const getUserProfile = async () => {
-    const { displayName, pictureUrl } = await liff.getProfile();
-    setUser({
-      username: displayName,
-      profile: pictureUrl,
-    });
+    const profile = await liff.getProfile();
+    dispatch({ type: UserContextTypes.SET_USER, payload: profile });
+
     setIsReady(true);
   };
 
   if (!isReady) return <Loading />;
 
   return (
-    <Stack minHeight={'100vh'} bgcolor={COLOR.WHITE_COLOR}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-      {/* <Swich
-      <Route path="/" element={<Home />} /> */}
-      {/* <header className="App-header">
-        <img
-          style={{ borderRadius: "10px", marginBottom: "2rem" }}
-          src={isAfterThreeSecs ? angryCat : cuteCat}
-          className="App-logo"
-          alt="logo"
-        />
-
-        {isReady && (
-          <>
-            <Stack direction={"row"} alignItems={"center"}>
-              <Avatar src={user?.profile} sx={{ mr: "1rem" }} />
-              <Typography color={"white"}>Hi {user?.username}</Typography>
-            </Stack>
-            {isAfterThreeSecs && (
-              <Stack mt={"1rem"}>
-                <Typography color={"white"} variant="h4">
-                  Fuck you!
-                </Typography>
-              </Stack>
-            )}
-          </>
-        )}
-      </header> */}
-    </Stack>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <Stack minHeight={'100vh'} bgcolor={COLOR.WHITE_COLOR}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Stack>
+      </QueryClientProvider>
+    </trpc.Provider>
   );
 }
 

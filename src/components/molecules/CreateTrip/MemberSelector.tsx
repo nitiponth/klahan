@@ -4,8 +4,13 @@ import StackWithShadow from '../../atoms/StackWithShadow/StackWithShadow';
 import cuteCat from '../../../assets/logo/cute-cate.jpeg';
 import { useFormContext } from 'react-hook-form';
 import { ICreateTripForm } from '../../pages/Home';
+import { IUser } from '../../../utils/types/user';
 
-const MemberSelector = () => {
+interface Props {
+  members?: IUser[];
+}
+
+const MemberSelector = ({ members = [] }: Props) => {
   const { watch, setValue } = useFormContext<ICreateTripForm>();
 
   const selectedMembers = watch('members');
@@ -27,10 +32,10 @@ const MemberSelector = () => {
         มีใครไปบ้างล่ะ ?
       </Typography>
       <StackWithShadow sx={styles.membersContainer}>
-        {new Array(5).fill('1').map((_, idx) => (
+        {members.map((member, idx) => (
           <SelectableAvatar
             key={idx}
-            profile={cuteCat}
+            profile={member.pictureUrl ?? cuteCat}
             isSelected={selectedMembers.includes(`#${idx}`)}
             onSelect={memberClickHandler.bind(null, `#${idx}`)}
           />

@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REACT_APP_LIFF_ID: ${{ secrets.REACT_APP_LIFF_ID }}
+      REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3

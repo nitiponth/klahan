@@ -33,10 +33,12 @@ export const appTheme = createTheme({
     body2: {
       fontFamily: 'Mitr',
       fontSize: '14px',
+      fontWeight: '300',
     },
     caption: {
       fontFamily: 'Mitr',
       fontSize: '12px',
+      fontWeight: '300',
     },
   },
 });

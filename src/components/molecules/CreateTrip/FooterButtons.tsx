@@ -4,12 +4,13 @@ import { COLOR } from '../../../utils/themes/colors';
 import StackWithShadow from '../../atoms/StackWithShadow/StackWithShadow';
 import liff from '@line/liff';
 import { useFormContext } from 'react-hook-form';
-import { ICreateTripForm } from '../../pages/Home';
+import { ICreateTripForm } from '../../pages/CreateTrip';
 import { createTrip } from '../../../networks/trips';
 import TwoWaysDialog from '../Dialog/TwoWaysDialog';
 import { ITrip } from '../../../utils/types/model/trip';
 import Lottie from 'react-lottie';
 import LoadingBar from '../../../assets/lotties/loading-bar.json';
+import { createButtonStyles } from '../../../utils/functions/styles';
 
 const FooterButtons = () => {
   const groupId =
@@ -97,13 +98,5 @@ const FooterButtons = () => {
 const styles = {
   containerStyles: { flexDirection: 'row', gap: '10px', marginTop: 'auto' },
 };
-
-const createButtonStyles = (color: string) => ({
-  flexGrow: 1,
-  bgcolor: color,
-  '&:hover': {
-    bgcolor: color,
-  },
-});
 
 export default FooterButtons;

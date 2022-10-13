@@ -3,7 +3,7 @@ import SelectableAvatar from '../../atoms/SelectableAvatar/SelectableAvatar';
 import StackWithShadow from '../../atoms/StackWithShadow/StackWithShadow';
 import cuteCat from '../../../assets/logo/cute-cate.jpeg';
 import { useFormContext } from 'react-hook-form';
-import { ICreateTripForm } from '../../pages/Home';
+import { ICreateTripForm } from '../../pages/CreateTrip';
 import { IUser } from '../../../utils/types/user';
 import { useEffect } from 'react';
 import liff from '@line/liff/dist/lib';

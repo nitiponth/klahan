@@ -14,7 +14,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useFormContext } from 'react-hook-form';
 import cuteCat from '../../../assets/logo/cute-cate.jpeg';
 import TwoWaysDialog from '../Dialog/TwoWaysDialog';
-import { ICreateTripForm } from '../../pages/Home';
+import { ICreateTripForm } from '../../pages/CreateTrip';
 
 const ProfileAndTitleSection = () => {
   const {

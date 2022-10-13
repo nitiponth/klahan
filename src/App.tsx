@@ -3,12 +3,14 @@ import './App.css';
 import liff from '@line/liff';
 import Loading from './components/atoms/Loading';
 import { Route, Routes } from 'react-router-dom';
-import Home from './components/pages/Home';
+import CreateTrip from './components/pages/CreateTrip';
 import { Stack } from '@mui/material';
 import { COLOR } from './utils/themes/colors';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { trpc } from './utils/trpc';
 import { UserContextTypes, useUserContext } from './contexts/userContext';
+import Trip from './components/pages/Trip';
+import Error from './components/pages/Error';
 
 const ENV = process.env.REACT_APP_ENV;
 const liffId = process.env.REACT_APP_LIFF_ID;
@@ -21,12 +23,6 @@ function App() {
   const [trpcClient] = useState(() =>
     trpc.createClient({
       url: BASE_URL,
-      // optional
-      // headers() {
-      //   return {
-      //     authorization: getAuthCookie(),
-      //   };
-      // },
     }),
   );
 
@@ -64,6 +60,7 @@ function App() {
 
   const getUserProfile = async () => {
     const profile = await liff.getProfile();
+
     dispatch({ type: UserContextTypes.SET_USER, payload: profile });
 
     setIsReady(true);
@@ -76,7 +73,9 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Stack minHeight={'100vh'} bgcolor={COLOR.WHITE_COLOR}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Trip />} />
+            <Route path="/createTrip" element={<CreateTrip />} />
+            <Route path="/error" element={<Error />} />
           </Routes>
         </Stack>
       </QueryClientProvider>

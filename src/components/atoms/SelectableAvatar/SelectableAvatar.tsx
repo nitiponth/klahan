@@ -11,14 +11,7 @@ interface Props {
 const SelectableAvatar = ({ profile, isSelected, onSelect }: Props) => {
   return (
     <Stack sx={{ position: 'relative' }} onClick={onSelect}>
-      <Avatar
-        src={profile}
-        sx={{
-          width: 50,
-          height: 50,
-          boxShadow: '-1px 0px 6px 0px rgba(0,0,0,0.16)',
-        }}
-      />
+      <Avatar src={profile} sx={styles.avatarStyles} />
       {isSelected && <CheckCircleIcon sx={styles.checkIconStyles} />}
     </Stack>
   );
@@ -34,6 +27,14 @@ const styles = {
     right: -5,
     width: 20,
     height: 20,
+  },
+  avatarStyles: {
+    width: 50,
+    height: 50,
+    boxShadow: '-1px 0px 6px 0px rgba(0,0,0,0.16)',
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
 };
 

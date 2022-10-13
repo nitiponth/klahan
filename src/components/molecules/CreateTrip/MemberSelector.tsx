@@ -5,15 +5,24 @@ import cuteCat from '../../../assets/logo/cute-cate.jpeg';
 import { useFormContext } from 'react-hook-form';
 import { ICreateTripForm } from '../../pages/Home';
 import { IUser } from '../../../utils/types/user';
+import { useEffect } from 'react';
+import liff from '@line/liff/dist/lib';
 
 interface Props {
   members?: IUser[];
 }
 
 const MemberSelector = ({ members = [] }: Props) => {
+  const userId = liff.getContext()?.userId;
   const { watch, setValue } = useFormContext<ICreateTripForm>();
 
   const selectedMembers = watch('members');
+
+  useEffect(() => {
+    if (!userId) return;
+
+    setValue('members', [userId]);
+  }, [setValue, userId]);
 
   const memberClickHandler = (userId: string) => {
     if (selectedMembers.includes(userId)) {
@@ -36,8 +45,8 @@ const MemberSelector = ({ members = [] }: Props) => {
           <SelectableAvatar
             key={idx}
             profile={member.pictureUrl ?? cuteCat}
-            isSelected={selectedMembers.includes(`#${idx}`)}
-            onSelect={memberClickHandler.bind(null, `#${idx}`)}
+            isSelected={selectedMembers.includes(member.userId)}
+            onSelect={memberClickHandler.bind(null, member.userId)}
           />
         ))}
       </StackWithShadow>

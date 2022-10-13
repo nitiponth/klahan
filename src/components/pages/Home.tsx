@@ -1,72 +1,62 @@
 import { Stack } from '@mui/material';
-
 import { COLOR } from '../../utils/themes/colors';
 import MemberSelector from '../molecules/CreateTrip/MemberSelector';
 import { useForm, FormProvider } from 'react-hook-form';
 import ProfileAndTitleSection from '../molecules/CreateTrip/ProfileAndTitleSection';
 import FooterButtons from '../molecules/CreateTrip/FooterButtons';
-import { trpc } from '../../utils/trpc';
 import liff from '@line/liff/dist/lib';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { IUser } from '../../utils/types/user';
+import { getMembers } from '../../networks/members';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Loading from '../atoms/Loading';
+
 export interface ICreateTripForm {
   title: string;
   members: string[];
+  profile?: string;
 }
 
-const CHANNLE_ACCESS_TOKEN = process.env.REACT_APP_CHANNLE_ACCESS_TOKEN;
-
 const Home = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [members, setMembers] = useState<IUser[]>([]);
   const context = liff.getContext();
-  const groupId = context?.groupId ?? 'Ca9c795691ae160008f29d19e5ce31521';
+  const groupId = context?.groupId ?? 'C842305eea1dbdd7980eaaf6cac6d296a';
 
-  const res = trpc.useQuery([
-    'getMembers',
-    context?.groupId ?? 'Ca9c795691ae160008f29d19e5ce31521',
-  ]).data;
-
-  useEffect(() => {
-    initializeMemberChoices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [res]);
-
-  const initializeMemberChoices = async () => {
-    if (!res && !res?.members) return;
-
+  const initialize = async () => {
     try {
-      const memberIds = res.members as string[];
+      setIsLoading(true);
+      const users = await getMembers(groupId);
 
-      const tickets = memberIds.map((id) => {
-        return axios.get(
-          `https://cors-anywhere.herokuapp.com/https://api.line.me/v2/bot/group/${groupId}/member/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${CHANNLE_ACCESS_TOKEN}`,
-            },
-          },
-        );
-      });
-
-      const response = await Promise.all(tickets);
-
-      const mbs = response.map((r) => {
-        return r.data;
-      }) as IUser[];
-
-      setMembers(mbs);
-    } catch (error: any) {
+      setMembers(users);
+    } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    initialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupId]);
+
+  const schema = yup.object().shape({
+    title: yup.string().required(),
+    members: yup.array().of(yup.string()).min(1),
+    profile: yup.string().nullable(),
+  });
+
   const formMethods = useForm<ICreateTripForm>({
+    resolver: yupResolver(schema),
+    reValidateMode: 'onBlur',
     defaultValues: {
-      title: '',
       members: [],
     },
   });
+
+  if (isLoading) return <Loading />;
 
   return (
     <FormProvider {...formMethods}>

@@ -1,49 +1,26 @@
 import { Typography } from '@mui/material';
+import { IBill } from '../../../utils/types/model/bill';
 import StackWithShadow from '../../atoms/StackWithShadow/StackWithShadow';
+import EmptyList from './components/EmptyList';
 import ExpenseItem from './components/ExpenseItem';
 
-interface ItemProps {
-  title: string;
-  value: number;
+interface Props {
+  bills: IBill[];
 }
 
-const ExpenseList = () => {
-  const dummiyItem: ItemProps[] = [
-    {
-      title: 'น้ำมันฟรีจ่ายโดยน้องไข่หมี',
-      value: 1800,
-    },
-    {
-      title: 'ซัพเวย์ของอาบัง',
-      value: 229,
-    },
+const ExpenseList = ({ bills }: Props) => {
+  const billItemBuilder = bills.map((item) => (
+    <ExpenseItem key={item._id} {...item} />
+  ));
 
-    {
-      title: 'ค่ามาม่า',
-      value: 300,
-    },
-    {
-      title: 'ค่าประกันชีวิต',
-      value: 10000,
-    },
-    {
-      title: 'ค่าเข้าอุทยาน',
-      value: 300,
-    },
-    {
-      title: 'ค่าเต้นท์',
-      value: 900,
-    },
-  ];
+  const shouldRenderBillItem = billItemBuilder.length > 0;
 
   return (
     <StackWithShadow sx={styles.listContainer}>
       <Typography variant="body1" mb={'0.5rem'}>
         บัญชีหนังหมา 🐶
       </Typography>
-      {dummiyItem.map((item, idx) => (
-        <ExpenseItem key={idx} title={item.title} value={item.value} />
-      ))}
+      {shouldRenderBillItem ? billItemBuilder : <EmptyList />}
     </StackWithShadow>
   );
 };

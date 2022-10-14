@@ -1,12 +1,8 @@
 import { Stack, Typography, AvatarGroup, Avatar } from '@mui/material';
 import cuteCat from '../../../../assets/logo/cute-cate.jpeg';
+import { IBill } from '../../../../utils/types/model/bill';
 
-interface Props {
-  title: string;
-  value: number;
-}
-
-const ExpenseItem = ({ title, value }: Props) => {
+const ExpenseItem = ({ title, value, debtors }: IBill) => {
   const itemValue = value.toLocaleString(undefined, {
     maximumFractionDigits: 2,
   });
@@ -25,10 +21,13 @@ const ExpenseItem = ({ title, value }: Props) => {
             },
           }}
         >
-          <Avatar src={cuteCat} sx={styles.avatarStyles} />
-          <Avatar src={cuteCat} sx={styles.avatarStyles} />
-          <Avatar src={cuteCat} sx={styles.avatarStyles} />
-          <Avatar src={cuteCat} sx={styles.avatarStyles} />
+          {debtors.map((user) => (
+            <Avatar
+              key={user.userId}
+              src={user.pictureUrl ?? cuteCat}
+              sx={styles.avatarStyles}
+            />
+          ))}
         </AvatarGroup>
       </Stack>
 

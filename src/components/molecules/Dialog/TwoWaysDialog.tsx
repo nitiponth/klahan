@@ -11,7 +11,7 @@ import { COLOR } from '../../../utils/themes/colors';
 
 interface Props {
   open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   title: string;
   body: string;
   onDenied: () => void;

@@ -13,7 +13,7 @@ const styles = {
   containerStyles: {
     flex: 1,
     bgcolor: COLOR.GRAY_1_COLOR,
-    marginTop: '1rem',
+    pt: '1rem',
     padding: '1rem',
   },
 };

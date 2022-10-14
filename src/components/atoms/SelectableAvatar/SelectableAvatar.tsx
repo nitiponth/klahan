@@ -1,9 +1,10 @@
 import { Avatar, Stack } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { COLOR } from '../../../utils/themes/colors';
+import cuteCat from '../../../assets/logo/cute-cate.jpeg';
 
 interface Props {
-  profile: string;
+  profile?: string;
   isSelected: boolean;
   onSelect: () => void;
 }
@@ -11,7 +12,7 @@ interface Props {
 const SelectableAvatar = ({ profile, isSelected, onSelect }: Props) => {
   return (
     <Stack sx={{ position: 'relative' }} onClick={onSelect}>
-      <Avatar src={profile} sx={styles.avatarStyles} />
+      <Avatar src={profile ?? cuteCat} sx={styles.avatarStyles} />
       {isSelected && <CheckCircleIcon sx={styles.checkIconStyles} />}
     </Stack>
   );

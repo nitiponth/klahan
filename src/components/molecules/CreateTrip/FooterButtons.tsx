@@ -8,9 +8,8 @@ import { ICreateTripForm } from '../../pages/CreateTrip';
 import { createTrip } from '../../../networks/trips';
 import TwoWaysDialog from '../Dialog/TwoWaysDialog';
 import { ITrip } from '../../../utils/types/model/trip';
-import Lottie from 'react-lottie';
-import LoadingBar from '../../../assets/lotties/loading-bar.json';
 import { createButtonStyles } from '../../../utils/functions/styles';
+import SmallLoading from '../../atoms/Loading/SmallLoading';
 
 const FooterButtons = () => {
   const groupId =
@@ -49,15 +48,6 @@ const FooterButtons = () => {
   const submitButtonStyles = createButtonStyles(COLOR.SUCCESS_COLOR);
   const cancleButtonStyles = createButtonStyles(COLOR.SECONDARY_COLOR);
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: LoadingBar,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
-
   return (
     <>
       <StackWithShadow sx={styles.containerStyles}>
@@ -74,16 +64,12 @@ const FooterButtons = () => {
           sx={submitButtonStyles}
           onClick={handleSubmit(createTripHandler)}
         >
-          {isLoading ? (
-            <Lottie width={30} height={20} options={defaultOptions} />
-          ) : (
-            'สร้างทริป'
-          )}
+          {isLoading ? <SmallLoading /> : 'สร้างทริป'}
         </Button>
       </StackWithShadow>
       <TwoWaysDialog
-        title="สร้างทริปเรียบร้อยแล้ว!"
-        body={`สร้างทริป ${trip?.title} เรียบร้อยแล้ว แต่ยังทำห่าอะไรต่อไม่ได้หรอกนะ เดฟจะไปดูซีรีส์ต่อแล้วคับ`}
+        title="สร้างทริปเรียบร้อยแล้ว 🥳"
+        body={`สร้างทริป ${trip?.title} เรียบร้อยแล้ว พี่หาญรอทวงเงินจากทุกคนไม่ไหวแล้วล่ะ!`}
         agreeText={'เข้าใจ'}
         denieText={'เข้าใจ แต่เป็นสีแดง'}
         onAgreed={formCancleHandler}

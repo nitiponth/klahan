@@ -1,12 +1,18 @@
-import { Button, Stack } from '@mui/material';
+import { Button, Modal, Stack } from '@mui/material';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createButtonStyles } from '../../../utils/functions/styles';
 import { COLOR } from '../../../utils/themes/colors';
 import { BOX_SHADOW } from '../../../utils/themes/commonStyles';
 import StackWithShadow from '../../atoms/StackWithShadow/StackWithShadow';
-import TwoWaysDialog from '../Dialog/TwoWaysDialog';
+import CreateBill from '../CreateBill/CreateBill';
 
-const Checkout = () => {
-  const formCancleHandler = () => {};
+interface Props {
+  tripId: string;
+}
+
+const TripDetailButtonGroup = ({ tripId }: Props) => {
+  const [activeBillForm, setActiveBillForm] = useState<boolean>(false);
 
   const checkButtonStyles = createButtonStyles(COLOR.SUCCESS_COLOR);
   const submitButtonStyles = createButtonStyles(COLOR.NOTIFY_COLOR);
@@ -18,7 +24,7 @@ const Checkout = () => {
         <Button
           variant="contained"
           sx={submitButtonStyles}
-          onClick={formCancleHandler}
+          onClick={setActiveBillForm.bind(null, true)}
         >
           จดบิลใหม่
         </Button>
@@ -30,6 +36,7 @@ const Checkout = () => {
       <Stack>
         <Button
           variant="contained"
+          disabled
           sx={[
             endButtonStyles,
             {
@@ -38,21 +45,30 @@ const Checkout = () => {
               boxShadow: BOX_SHADOW,
             },
           ]}
-          onClick={formCancleHandler}
+          onClick={undefined}
         >
           ปิดทริป
         </Button>
       </Stack>
-      <TwoWaysDialog
+      <Modal
+        open={activeBillForm}
+        onClose={setActiveBillForm.bind(null, false)}
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Stack bgcolor={COLOR.WHITE_COLOR} borderRadius={'10px'}>
+          <CreateBill tripId={tripId} />
+        </Stack>
+      </Modal>
+      {/* <TwoWaysDialog
         title="สร้างทริปเรียบร้อยแล้ว!"
-        body={'sdsdsd'}
-        agreeText={'เข้าใจ'}
-        denieText={'เข้าใจ แต่เป็นสีแดง'}
-        onAgreed={formCancleHandler}
-        onClose={formCancleHandler}
-        onDenied={formCancleHandler}
+        body={'สร้างทริปเรียบร้อยแล้ว พี่หาญรอทวงเงินจากทุกคนไม่ไหวแล้วล่ะ! 🥳'}
+        agreeText={'ไปดูทริป'}
+        denieText={'กลับไปยังแชท'}
+        onAgreed={onNavigateToTripDetail}
+        onDenied={liff.closeWindow}
+        onClose={undefined}
         open={false}
-      />
+      /> */}
     </Stack>
   );
 };
@@ -61,4 +77,4 @@ const styles = {
   containerStyles: { flexDirection: 'row', gap: '10px', my: '1rem' },
 };
 
-export default Checkout;
+export default TripDetailButtonGroup;

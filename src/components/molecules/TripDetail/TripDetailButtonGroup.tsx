@@ -1,6 +1,5 @@
 import { Button, Modal, Stack } from '@mui/material';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { createButtonStyles } from '../../../utils/functions/styles';
 import { COLOR } from '../../../utils/themes/colors';
 import { BOX_SHADOW } from '../../../utils/themes/commonStyles';
@@ -9,14 +8,20 @@ import CreateBill from '../CreateBill/CreateBill';
 
 interface Props {
   tripId: string;
+  onRefresh: () => void;
 }
 
-const TripDetailButtonGroup = ({ tripId }: Props) => {
+const TripDetailButtonGroup = ({ tripId, onRefresh }: Props) => {
   const [activeBillForm, setActiveBillForm] = useState<boolean>(false);
 
   const checkButtonStyles = createButtonStyles(COLOR.SUCCESS_COLOR);
   const submitButtonStyles = createButtonStyles(COLOR.NOTIFY_COLOR);
   const endButtonStyles = createButtonStyles(COLOR.WHITE_COLOR);
+
+  const onCreateSuccesfully = () => {
+    onRefresh();
+    setActiveBillForm(false);
+  };
 
   return (
     <Stack mt={'auto'}>
@@ -56,7 +61,7 @@ const TripDetailButtonGroup = ({ tripId }: Props) => {
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         <Stack bgcolor={COLOR.WHITE_COLOR} borderRadius={'10px'}>
-          <CreateBill tripId={tripId} />
+          <CreateBill tripId={tripId} callback={onCreateSuccesfully} />
         </Stack>
       </Modal>
       {/* <TwoWaysDialog

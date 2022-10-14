@@ -34,7 +34,7 @@ const Trip = () => {
     <SimpleLayout>
       <TripSummary title={trip.title} bills={trip.bills} />
       <ExpenseList bills={trip.bills} />
-      <TripDetailButtonGroup tripId={trip._id} />
+      <TripDetailButtonGroup tripId={trip._id} onRefresh={initialize} />
     </SimpleLayout>
   );
 };

@@ -1,4 +1,4 @@
-import { Avatar, Stack } from '@mui/material';
+import { Avatar, Stack, SxProps, Theme } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { COLOR } from '../../../utils/themes/colors';
 import cuteCat from '../../../assets/logo/cute-cate.jpeg';
@@ -6,13 +6,22 @@ import cuteCat from '../../../assets/logo/cute-cate.jpeg';
 interface Props {
   profile?: string;
   isSelected: boolean;
-  onSelect: () => void;
+  onSelect?: () => void;
+  avatarStyles?: SxProps<Theme>;
 }
 
-const SelectableAvatar = ({ profile, isSelected, onSelect }: Props) => {
+const SelectableAvatar = ({
+  profile,
+  isSelected,
+  onSelect,
+  avatarStyles,
+}: Props) => {
   return (
     <Stack sx={{ position: 'relative' }} onClick={onSelect}>
-      <Avatar src={profile ?? cuteCat} sx={styles.avatarStyles} />
+      <Avatar
+        src={profile ?? cuteCat}
+        sx={{ ...styles.avatarStyles, ...avatarStyles }}
+      />
       {isSelected && <CheckCircleIcon sx={styles.checkIconStyles} />}
     </Stack>
   );

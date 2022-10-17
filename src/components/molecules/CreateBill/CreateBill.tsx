@@ -1,5 +1,5 @@
 import liff from '@line/liff/dist/lib';
-import { Typography, Stack, Button, FormHelperText } from '@mui/material';
+import { Stack, Button, FormHelperText } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { getTripMembers } from '../../../networks/trips';
@@ -14,6 +14,8 @@ import { StyledTextField } from '../../atoms/TextField';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createBill, ICreateBillForm } from '../../../networks/bills';
+import HeaderAndCreditor from './components/HeaderAndCreditor';
+import AvatarSkeletion from '../Skeletons/AvatarSkeletion';
 
 interface Props {
   tripId: string;
@@ -24,6 +26,7 @@ const CreateBill = ({ tripId, callback }: Props) => {
   const userId = liff.getContext()?.userId ?? DEV_USER_ID;
   const [members, setMembers] = useState<IUser[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     initialize();
@@ -100,22 +103,30 @@ const CreateBill = ({ tripId, callback }: Props) => {
   const submitButtonStyles = createButtonStyles(COLOR.SUCCESS_COLOR);
 
   const onSubmit = async (data: ICreateBillForm) => {
+    if (isSubmitting) return;
+
     try {
+      setIsSubmitting(true);
       const res = await createBill(data);
       if (res) {
         callback();
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  const AvatarSkeletonGroup = new Array(6).fill(1).map((_, idx) => {
+    return <AvatarSkeletion key={idx} />;
+  });
 
   return (
     <FormProvider {...formMethods}>
       <StackWithShadow sx={{ p: 2, minWidth: '260px', maxWidth: '80vw' }}>
-        <Typography variant="h4" mb={2}>
-          ไหนๆ ใครเป็นหนี้~
-        </Typography>
+        <HeaderAndCreditor members={members} />
+
         <Stack>
           <StyledTextField
             {...register('title')}
@@ -145,7 +156,7 @@ const CreateBill = ({ tripId, callback }: Props) => {
 
         <Stack alignItems={'center'} my={5}>
           <Stack sx={styles.deptorContainer}>
-            {isLoading ? <SmallLoading /> : deptorsSelectorBuilder}
+            {isLoading ? AvatarSkeletonGroup : deptorsSelectorBuilder}
           </Stack>
           {errors.debtors && (
             <FormHelperText sx={{ color: COLOR.SECONDARY_COLOR }}>
@@ -159,7 +170,7 @@ const CreateBill = ({ tripId, callback }: Props) => {
           variant="contained"
           onClick={handleSubmit(onSubmit)}
         >
-          สร้างหนี้
+          {isSubmitting ? <SmallLoading /> : 'สร้างหนี้'}
         </Button>
       </StackWithShadow>
     </FormProvider>

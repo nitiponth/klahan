@@ -1,8 +1,10 @@
 import React from 'react';
-import Lottie from 'react-lottie';
+import Lottie, { LottieProps } from 'react-lottie';
 import LoadingBar from '../../../assets/lotties/loading-bar.json';
 
-const SmallLoading = () => {
+type Props = Omit<LottieProps, 'options'>;
+
+const SmallLoading = (props: Props) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -12,7 +14,7 @@ const SmallLoading = () => {
     },
   };
 
-  return <Lottie width={30} height={20} options={defaultOptions} />;
+  return <Lottie width={30} height={20} options={defaultOptions} {...props} />;
 };
 
 export default SmallLoading;

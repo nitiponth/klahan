@@ -7,11 +7,11 @@ import SelectableAvatar from '../../../atoms/SelectableAvatar/SelectableAvatar';
 
 interface Props {
   members: IUser[];
+  isKeyboardFocus: boolean;
 }
 
-const HeaderAndCreditor = ({ members }: Props) => {
+const HeaderAndCreditor = ({ members, isKeyboardFocus }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
-
   const { setValue, watch } = useFormContext<ICreateBillForm>();
 
   const creditor = watch('creditor');
@@ -19,6 +19,7 @@ const HeaderAndCreditor = ({ members }: Props) => {
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (anchorEl) return;
+    if (isKeyboardFocus) return;
     setAnchorEl(event.currentTarget);
   };
 

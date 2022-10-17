@@ -27,6 +27,7 @@ const CreateBill = ({ tripId, callback }: Props) => {
   const [members, setMembers] = useState<IUser[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState<boolean>(false);
 
   useEffect(() => {
     initialize();
@@ -122,10 +123,16 @@ const CreateBill = ({ tripId, callback }: Props) => {
     return <AvatarSkeletion key={idx} />;
   });
 
+  const onKeyboardBlur = () => {
+    setTimeout(() => {
+      setIsKeyboardOpen(false), 100;
+    });
+  };
+
   return (
     <FormProvider {...formMethods}>
       <StackWithShadow sx={{ p: 2, minWidth: '260px', maxWidth: '80vw' }}>
-        <HeaderAndCreditor members={members} />
+        <HeaderAndCreditor members={members} isKeyboardFocus={isKeyboardOpen} />
 
         <Stack>
           <StyledTextField
@@ -139,6 +146,8 @@ const CreateBill = ({ tripId, callback }: Props) => {
             error={!!errors.title}
             FormHelperTextProps={styles.formHelperProps}
             helperText={errors.title ? 'ใช่ชื่อรายการให้หน่อยสิ' : ''}
+            onFocus={setIsKeyboardOpen.bind(null, true)}
+            onBlur={onKeyboardBlur}
           />
           <StyledTextField
             {...register('value')}
@@ -151,6 +160,8 @@ const CreateBill = ({ tripId, callback }: Props) => {
             error={!!errors.value}
             FormHelperTextProps={styles.formHelperProps}
             helperText={errors.value ? 'ไม่มีหนี้หรอ ?' : ''}
+            onFocus={setIsKeyboardOpen.bind(null, true)}
+            onBlur={onKeyboardBlur}
           />
         </Stack>
 
